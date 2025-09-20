@@ -15,7 +15,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [selectedImage, setSelectedIMage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   
   const handleSearch = async (query) => {
     setSearch(query);
@@ -45,10 +45,12 @@ function App() {
   };
   
   const handleModalOpen = (image) => {
-    setSelectedIMage(image);
+    setSelectedImage(image);
   };
+  
   const handleModalClose = () => {
-    setSelectedIMage(null);
+    console.log("handleModalClose");
+    setSelectedImage(null);
   };
   
   return (

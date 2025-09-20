@@ -9,8 +9,12 @@ const ImageModal = ({
                       onClose,
                     }) => {
   
-  
-  Modal.setAppElement("#root");
+  try {
+    Modal.setAppElement("#root");
+  } catch (error) {
+    console.log("error:",
+                error);
+  }
   
   return (
       <div>
