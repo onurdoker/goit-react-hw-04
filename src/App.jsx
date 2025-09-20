@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BarLoader } from "react-spinners";
 import { getImages } from "./contents/FetchImages.js";
 import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
+import ImageModal from "./contents/ImageModal/ImageModal.jsx";
 import LoadMoreBtn from "./contents/LoadMore/LoadMoreBtn.jsx";
 import SearchBar from "./contents/SearchBar/SearchBar.jsx";
 
@@ -13,6 +14,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
+  const [error, setError] = useState(null);
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedIMage] = useState(null);
+  
+  const openModel = (image) => setSelectedIMage(image);
+  const closeModal = () => setSelectedIMage(null);
   
   const handleSearch = async (query) => {
     setSearch(query);
@@ -21,33 +28,43 @@ function App() {
                  try {
                    const response = await getImages(query,
                                                     page);
-                   console.log(response);
                    setImages((prevImages) =>
                                  [...prevImages,
                                   ...response.results]);
                    setTotalPage(response.total_pages);
                    setPage(page + 1);
                  } catch (error) {
-                   console.log(error);
+                   setError(error);
                  } finally {
                    setLoading(false);
                  }
                },
                2000);
-    
   };
   
   const handleMore = () => {
     handleSearch(search);
   };
-  console.log(totalPage);
   
   return (
       <>
         <SearchBar setSearch={handleSearch} />
         
+        {search && images &&
+         <ImageGallery
+             images={images}
+             openModel={openModel}
+             errorMessage={error}
+         />
+        }
         
-        {search && images && <ImageGallery images={images} />}
+        {selectedImage &&
+         <ImageModal
+             image={selectedImage}
+             modalIsOpen={!!selectedImage}
+             closeModal={closeModal}
+         />
+        }
         
         <div className={"loader"}>
           <BarLoader
@@ -57,9 +74,8 @@ function App() {
               loading={loading}
               speedMultiplier={1}
           />
-        
-        
         </div>
+        
         {totalPage > 1 && <LoadMoreBtn handleMore={handleMore} />}
       </>
   );
