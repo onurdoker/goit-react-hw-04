@@ -1,6 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BarLoader } from "react-spinners";
 import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
 import SearchBar from "./contents/SearchBar/SearchBar.jsx";
 
@@ -12,6 +13,7 @@ function App() {
   
   const [search, setSearch] = useState("");
   const [images, setImages] = useState();
+  const [loading, setLoading] = useState(true);
   
   // useEffect(() => {
   //             async function fetchImages() {
@@ -29,6 +31,17 @@ function App() {
         <ul>
           {search && images && <ImageGallery images={images} />}
         </ul>
+        
+        <div className={"loader"}>
+          <BarLoader
+              height={5}
+              width={300}
+              color={"#3F50B5"}
+              loading={loading}
+              speedMultiplier={0.1}
+          />
+        
+        </div>
       </>
   );
 }
