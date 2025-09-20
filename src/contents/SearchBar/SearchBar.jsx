@@ -13,7 +13,6 @@ const SearchBar = ({ setSearch }) => {
                   { duration: 3000 });
       console.log("empty");
     }
-    console.log(searchKey);
     
     setSearch(event.target.elements.search.value);
     
