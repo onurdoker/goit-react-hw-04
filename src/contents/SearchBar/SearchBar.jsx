@@ -5,13 +5,13 @@ const SearchBar = ({ setSearch }) => {
   
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     let searchKey = event.target.elements.search.value;
     
     if (searchKey === "") {
       toast.error(`This field cannot be left empty.
       Please enter the word you want to search for.`,
                   { duration: 3000 });
-      console.log("empty");
     }
     
     setSearch(event.target.elements.search.value);

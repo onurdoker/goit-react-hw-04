@@ -1,33 +1,38 @@
 import "./App.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
+import { getImages } from "./contents/FetchImages.js";
 import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
 import SearchBar from "./contents/SearchBar/SearchBar.jsx";
 
 function App() {
   
-  const accessKey = "9csalAi_KlvP5jkXf-l5H6AABrR3GiX2FK7QvqD9kiA";
-  const Set_URL = "https://api.unsplash.com/photos/?client_id=";
-  const URL = Set_URL + accessKey;
-  
   const [search, setSearch] = useState("");
   const [images, setImages] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   
-  // useEffect(() => {
-  //             async function fetchImages() {
-  //               const response = await axios.get(URL);
-  //               setImages(response.data);
-  //             }
-  //
-  //             fetchImages();
-  //           },
-  //           []);
+  const handleSearch = async (query) => {
+    setSearch(query);
+    setLoading(true);
+    setTimeout(async () => {
+                 try {
+                   const response = await getImages(query,
+                                                    1);
+                   console.log(response);
+                   setImages(response.results);
+                   setLoading(false);
+                   
+                 } catch (error) {
+                   console.log(error);
+                 }
+               },
+               3000);
+    
+  };
   
   return (
       <>
-        <SearchBar setSearch={setSearch} />
+        <SearchBar setSearch={handleSearch} />
         <ul>
           {search && images && <ImageGallery images={images} />}
         </ul>
@@ -38,7 +43,7 @@ function App() {
               width={300}
               color={"#3F50B5"}
               loading={loading}
-              speedMultiplier={0.1}
+              speedMultiplier={0.3}
           />
         
         </div>
