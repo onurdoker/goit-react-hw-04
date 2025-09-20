@@ -1,10 +1,22 @@
+import toast, { Toaster } from "react-hot-toast";
 import styles from "./SearchBar.module.css";
 
 const SearchBar = ({ setSearch }) => {
   
   const handleSubmit = (event) => {
     event.preventDefault();
+    let searchKey = event.target.elements.search.value;
+    
+    if (searchKey === "") {
+      toast.error(`This field cannot be left empty.
+      Please enter the word you want to search for.`,
+                  { duration: 3000 });
+      console.log("empty");
+    }
+    console.log(searchKey);
+    
     setSearch(event.target.elements.search.value);
+    
   };
   
   return (
@@ -21,6 +33,7 @@ const SearchBar = ({ setSearch }) => {
             />
             <button>Search</button>
           </form>
+          <Toaster position={"top-center"} />
         </header>
       </div>
   );
