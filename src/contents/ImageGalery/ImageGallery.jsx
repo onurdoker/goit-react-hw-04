@@ -3,13 +3,11 @@ import styles from "./ImageGallery.module.css";
 const ImageGallery = ({
                         images,
                         openModel,
-                        errorMessage,
                       }) => {
   
   
   return (
       <>
-        {errorMessage && <ErrorMessage message={"Something went wrong, please try again later."} />}
         <ul className={styles.container}>
           {images.map((image) => (
               <li key={image.id}>

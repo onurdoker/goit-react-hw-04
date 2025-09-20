@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { BarLoader } from "react-spinners";
 import { getImages } from "./contents/FetchImages.js";
 import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
@@ -14,12 +15,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [error, setError] = useState(null);
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImage, setSelectedIMage] = useState(null);
-  
-  const openModel = (image) => setSelectedIMage(image);
-  const closeModal = () => setSelectedIMage(null);
   
   const handleSearch = async (query) => {
     setSearch(query);
@@ -34,7 +30,9 @@ function App() {
                    setTotalPage(response.total_pages);
                    setPage(page + 1);
                  } catch (error) {
-                   setError(error);
+                   console.error("Error fetching images:",
+                                 error);
+                   toast.error("Something went wrong, please try again later.");
                  } finally {
                    setLoading(false);
                  }
@@ -46,6 +44,13 @@ function App() {
     handleSearch(search);
   };
   
+  const handleModalOpen = (image) => {
+    setSelectedIMage(image);
+  };
+  const handleModalClose = () => {
+    setSelectedIMage(null);
+  };
+  
   return (
       <>
         <SearchBar setSearch={handleSearch} />
@@ -53,16 +58,15 @@ function App() {
         {search && images &&
          <ImageGallery
              images={images}
-             openModel={openModel}
-             errorMessage={error}
+             openModel={handleModalOpen}
          />
         }
         
         {selectedImage &&
          <ImageModal
              image={selectedImage}
-             modalIsOpen={!!selectedImage}
-             closeModal={closeModal}
+             isOpen={!!selectedImage}
+             closeModal={handleModalClose}
          />
         }
         
