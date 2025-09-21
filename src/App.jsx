@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { BarLoader } from "react-spinners";
 import { getImages } from "./contents/FetchImages.js";
 import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
@@ -19,31 +19,33 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleSearch = async (query) => {
-    setSearch(query);
-    setLoading(true);
-    setTimeout(async () => {
-                 try {
-                   const response = await getImages(query,
-                                                    page);
-                   setImages((prevImages) =>
-                                 [...prevImages,
-                                  ...response.results]);
-                   setTotalPage(response.total_pages);
-                   setPage(page + 1);
-                 } catch (error) {
-                   if (error.status === 400) {
-                     toast.error(`This field cannot be left empty.
-                     Please enter the word you want to search for.`);
-                   } else if (error.status === 401) {
-                     toast.error("You have exceeded the rate limit.");
-                   } else if (error.status === 500) {
-                     toast.error("Something went wrong, please try again later.");
+    if (query.trim() === "") {
+      toast.error(`This field cannot be left empty.
+          Please enter the word you want to search for.`,
+                  { duration: 3000 });
+    } else {
+      setSearch(query);
+      setLoading(true);
+      setTimeout(async () => {
+                   try {
+                     const response = await getImages(query,
+                                                      page);
+                     setImages((prevImages) =>
+                                   [...prevImages,
+                                    ...response.results]);
+                     setTotalPage(response.total_pages);
+                     setPage(page + 1);
+                   } catch (error) {
+                     if (error.status) {
+                       toast.error("Something went wrong, please try again later.",
+                                   { duration: 3000 });
+                     }
+                   } finally {
+                     setLoading(false);
                    }
-                 } finally {
-                   setLoading(false);
-                 }
-               },
-               2000);
+                 },
+                 2000);
+    }
   };
   
   const handleMore = () => {
@@ -99,6 +101,8 @@ function App() {
         </div>
         
         {totalPage > 1 && <LoadMoreBtn handleMore={handleMore} />}
+        
+        <Toaster position={"top-center"} />
       </>
   );
 }
