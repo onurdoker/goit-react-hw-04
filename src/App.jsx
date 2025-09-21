@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BarLoader } from "react-spinners";
 import { getImages } from "./contents/FetchImages.js";
@@ -16,6 +16,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleSearch = async (query) => {
     setSearch(query);
@@ -46,12 +47,22 @@ function App() {
   
   const handleModalOpen = (image) => {
     setSelectedImage(image);
+    setIsModalOpen(true);
   };
   
   const handleModalClose = () => {
-    console.log("handleModalClose");
     setSelectedImage(null);
+    setIsModalOpen(false);
   };
+  
+  useEffect(() => {
+              if (isModalOpen) {
+                document.body.classList.add("modal-open");
+              } else {
+                document.body.classList.remove("modal-open");
+              }
+            },
+            [isModalOpen]);
   
   return (
       <>
@@ -67,7 +78,7 @@ function App() {
         {selectedImage &&
          <ImageModal
              image={selectedImage}
-             isOpen={!!selectedImage}
+             isOpen={isModalOpen}
              closeModal={handleModalClose}
          />
         }
