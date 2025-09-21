@@ -32,7 +32,7 @@ const ImageModal = ({
             className={styles.image}
             src={image.urls.regular}
             alt={image.alt_description}
-        />/
+        />
       </Modal>
   );
   
