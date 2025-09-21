@@ -1,18 +1,9 @@
-import toast, { Toaster } from "react-hot-toast";
 import styles from "./SearchBar.module.css";
 
 const SearchBar = ({ setSearch }) => {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    let searchKey = event.target.elements.search.value;
-    
-    if (searchKey === "") {
-      toast.error(`This field cannot be left empty.
-      Please enter the word you want to search for.`,
-                  { duration: 3000 });
-    }
     
     setSearch(event.target.elements.search.value);
     
@@ -22,6 +13,7 @@ const SearchBar = ({ setSearch }) => {
       <div className={styles.container}>
         <header>
           <form onSubmit={handleSubmit}>
+            <button className={styles.btn}>🔎</button>
             <input
                 className={styles.input}
                 name={"search"}
@@ -30,9 +22,7 @@ const SearchBar = ({ setSearch }) => {
                 autoFocus
                 placeholder={"Search images and photos"}
             />
-            <button>Search</button>
           </form>
-          <Toaster position={"top-center"} />
         </header>
       </div>
   );

@@ -31,9 +31,14 @@ function App() {
                    setTotalPage(response.total_pages);
                    setPage(page + 1);
                  } catch (error) {
-                   console.error("Error fetching images:",
-                                 error);
-                   toast.error("Something went wrong, please try again later.");
+                   if (error.status === 400) {
+                     toast.error(`This field cannot be left empty.
+                     Please enter the word you want to search for.`);
+                   } else if (error.status === 401) {
+                     toast.error("You have exceeded the rate limit.");
+                   } else if (error.status === 500) {
+                     toast.error("Something went wrong, please try again later.");
+                   }
                  } finally {
                    setLoading(false);
                  }

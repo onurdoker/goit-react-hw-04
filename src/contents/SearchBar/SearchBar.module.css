@@ -9,6 +9,24 @@
 .input {
     width: 250px;
     height: 35px;
-    margin-right: 20px;
     color: #1A1A1A;
+}
+
+.btn {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    cursor: pointer;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    background-color: #3F50B5;
+}
+
+.btn:hover {
+    border: none;
+}
+
+.btn:focus {
+    outline: none;
 }
