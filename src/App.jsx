@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { BarLoader } from "react-spinners";
 import { getImages } from "./contents/FetchImages.js";
-import ImageGallery from "./contents/ImageGalery/ImageGallery.jsx";
+import ImageGallery from "./contents/ImageGallery/ImageGallery.jsx";
 import ImageModal from "./contents/ImageModal/ImageModal.jsx";
 import LoadMoreBtn from "./contents/LoadMore/LoadMoreBtn.jsx";
 import SearchBar from "./contents/SearchBar/SearchBar.jsx";
