@@ -1,4 +1,4 @@
-# GoIT React HW-04 — Image Search App (React + Vite)
+# Image Search App (React + Vite)
 
 A small React application built with Vite that searches images from Unsplash, displays results as a gallery, supports a
 modal preview, and provides a "Load More" pagination experience. It features toasts for user feedback and a top bar
